@@ -15,7 +15,7 @@ mkdir $HOME/lib
 cd $HOME/lib
 git clone https://github.com/jpmorganchase/quorum.git
 cd $HOME/lib/quorum/
-git checkout tags/v2.1.0
+git checkout tags/v2.2.3
 make all
 
 mkdir $HOME/bin
@@ -23,7 +23,7 @@ cp $HOME/lib/quorum/build/bin/geth $HOME/bin/
 cp $HOME/lib/quorum/build/bin/bootnode $HOME/bin/
 
 cd $HOME/lib
-wget -q https://github.com/jpmorganchase/tessera/releases/download/tessera-0.6/tessera-app-0.6-app.jar
-cp $HOME/lib/tessera-app-0.6-app.jar $HOME/bin/tessera.jar
+wget -q https://github.com/jpmorganchase/tessera/releases/download/tessera-0.92/tessera-app-0.92-app.jar
+cp $HOME/lib/tessera-app-0.92-app.jar $HOME/bin/tessera.jar
 
 

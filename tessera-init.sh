@@ -16,48 +16,70 @@ mv "tm.key" "${DDIR}/tm.key"
     #change tls to "strict" to enable it (don't forget to also change http -> https)
     cat <<EOF > ${DDIR}/tessera-config.json
 {
-    "useWhiteList": false,
-    "jdbc": {
-        "username": "sa",
-        "password": "",
-        "url": "jdbc:h2:./${DDIR}/db${i};MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=0"
+  "useWhiteList": false,
+  "jdbc": {
+    "username": "sa",
+    "password": "",
+    "url": "jdbc:h2:./${DDIR}/db;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=0",
+    "autoCreateTables": true
+  },
+  "serverConfigs": [
+    {
+      "app": "ThirdParty",
+      "enabled": true,
+      "serverAddress": "http://localhost:9081",
+      "communicationType": "REST"
     },
-    "server": {
-        "port": 9001,
-        "hostName": "http://localhost",
-        "sslConfig": {
-            "tls": "OFF",
-            "generateKeyStoreIfNotExisted": true,
-            "serverKeyStore": "${currentDir}/qdata/c1/server-keystore",
-            "serverKeyStorePassword": "quorum",
-            "serverTrustStore": "${currentDir}/qdata/c1/server-truststore",
-            "serverTrustStorePassword": "quorum",
-            "serverTrustMode": "TOFU",
-            "knownClientsFile": "${currentDir}/qdata/c1/knownClients",
-            "clientKeyStore": "${currentDir}/qdata/c1/client-keystore",
-            "clientKeyStorePassword": "quorum",
-            "clientTrustStore": "${currentDir}/qdata/c1/client-truststore",
-            "clientTrustStorePassword": "quorum",
-            "clientTrustMode": "TOFU",
-            "knownServersFile": "${currentDir}/qdata/c1/knownServers"
-        }
+    {
+      "app": "Q2T",
+      "enabled": true,
+      "serverAddress": "unix:${DDIR}/tm.ipc",
+      "communicationType": "REST"
     },
-    "peer": [
-        {
-            "url": "http://localhost:9001"
-        }
+    {
+      "app": "P2P",
+      "enabled": true,
+      "serverAddress": "http://localhost:9001",
+      "sslConfig": {
+        "tls": "OFF",
+        "generateKeyStoreIfNotExisted": true,
+        "serverKeyStore": "${DDIR}/server-keystore",
+        "serverKeyStorePassword": "quorum",
+        "serverTrustStore": "${DDIR}/server-truststore",
+        "serverTrustStorePassword": "quorum",
+        "serverTrustMode": "TOFU",
+        "knownClientsFile": "${DDIR}/knownClients",
+        "clientKeyStore": "${DDIR}/client-keystore",
+        "clientKeyStorePassword": "quorum",
+        "clientTrustStore": "${DDIR}/client-truststore",
+        "clientTrustStorePassword": "quorum",
+        "clientTrustMode": "TOFU",
+        "knownServersFile": "${DDIR}/knownServers"
+      },
+      "communicationType": "REST"
+    }
+  ],
+  "peer": [
+    {
+      "url": "http://localhost:9001"
+    }
+  ],
+  "keys": {
+    "passwords": [
+      
     ],
-    "keys": {
-        "passwords": [],
-        "keyData": [
-            {
-                "config": $(cat ${DDIR}/tm.key),
-                "publicKey": "$(cat ${DDIR}/tm.pub)"
-            }
-        ]
-    },
-    "alwaysSendTo": [],
-    "unixSocketFile": "${DDIR}/tm.ipc"
+    "keyData": [
+      {
+        "config": $(cat${
+          DDIR
+        }/tm.key),
+        "publicKey": "$(cat ${DDIR}/tm.pub)"
+      }
+    ]
+  },
+  "alwaysSendTo": [
+    
+  ],
+  "unixSocketFile": "${DDIR}/tm.ipc"
 }
 EOF
-

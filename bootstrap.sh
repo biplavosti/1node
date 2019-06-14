@@ -23,7 +23,7 @@ cp $HOME/lib/quorum/build/bin/geth $HOME/bin/
 cp $HOME/lib/quorum/build/bin/bootnode $HOME/bin/
 
 cd $HOME/lib
-wget -q https://github.com/jpmorganchase/tessera/releases/download/tessera-0.92/tessera-app-0.92-app.jar
-cp $HOME/lib/tessera-app-0.92-app.jar $HOME/bin/tessera.jar
+wget -q https://oss.sonatype.org/content/groups/public/com/jpmorgan/quorum/tessera-app/0.9.2/tessera-app-0.9.2-app.jar
+cp $HOME/lib/tessera-app-0.9.2-app.jar $HOME/bin/tessera.jar
 
 

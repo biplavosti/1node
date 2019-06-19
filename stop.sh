@@ -7,3 +7,10 @@ then
 else
   echo "tessera: no process found"
 fi
+
+if [ "`jps | grep enclave`" != "" ]
+then
+    jps | grep enclave | cut -d " " -f1 | xargs kill
+else
+    echo "enclave: no process found"
+fi

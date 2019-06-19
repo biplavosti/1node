@@ -14,7 +14,7 @@ mv "tm.pub" "${DDIR}/tm.pub"
 mv "tm.key" "${DDIR}/tm.key"
 
     #change tls to "strict" to enable it (don't forget to also change http -> https)
-    cat <<EOF > ${DDIR}/tessera-config.json
+    cat <<EOF > ${DDIR}/tessera-config-09-1.json
 {
   "useWhiteList": false,
   "jdbc": {
@@ -70,9 +70,7 @@ mv "tm.key" "${DDIR}/tm.key"
     ],
     "keyData": [
       {
-        "config": $(cat${
-          DDIR
-        }/tm.key),
+        "config": "$(cat${DDIR}/tm.key)",
         "publicKey": "$(cat ${DDIR}/tm.pub)"
       }
     ]
@@ -81,5 +79,76 @@ mv "tm.key" "${DDIR}/tm.key"
     
   ],
   "unixSocketFile": "${DDIR}/tm.ipc"
+}
+EOF
+
+# Enclave configurations
+
+cat <<EOF > ${DDIR}/tessera-config-enclave-09-1.json
+{
+    "useWhiteList": false,
+    "jdbc": {
+        "username": "sa",
+        "password": "",
+        "url": "jdbc:h2:${DDIR}/db$;MODE=Oracle;TRACE_LEVEL_SYSTEM_OUT=0",
+        "autoCreateTables": true
+    },
+    "serverConfigs":[
+        {
+            "app":"ENCLAVE",
+            "enabled": true,
+            "serverAddress": "http://localhost:9181",
+            "communicationType" : "REST"
+        },
+        {
+            "app":"ThirdParty",
+            "enabled": true,
+            "serverAddress": "http://localhost:9081",
+            "communicationType" : "REST"
+        },
+        {
+            "app":"Q2T",
+            "enabled": true,
+             "serverAddress":"unix:${DDIR}/tm.ipc",
+            "communicationType" : "REST"
+        },
+        {
+            "app":"P2P",
+            "enabled": true,
+            "serverAddress":"http://localhost:9001",
+            "sslConfig": {
+                "tls": "OFF"
+            },
+            "communicationType" : "REST"
+        }
+    ],
+    "peer": [
+        {
+            "url": "http://localhost:9001"
+        }
+    ]
+}
+EOF
+
+cat <<EOF > ${DDIR}/enclave-09-1.json
+{
+    "serverConfigs":[
+        {
+            "app":"ENCLAVE",
+            "enabled": true,
+            "serverAddress": "http://localhost:9181",
+            "communicationType" : "REST"
+        }
+    ],
+    "keys": {
+        "passwords": [],
+        "keyData": [
+            {
+                "privateKeyPath": "${DDIR}/tm.key",
+                "publicKeyPath": "${DDIR}/tm.pub"
+            }
+        ]
+    },
+    "alwaysSendTo": []
 }
 EOF

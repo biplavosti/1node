@@ -3,6 +3,8 @@
 
 # install build deps
 sudo apt-get install openjdk-8-jre-headless
+sudo apt install openjdk-8-jdk-headless
+
 sudo add-apt-repository ppa:ethereum/ethereum
 sudo apt-get update
 sudo apt-get install -y build-essential make unzip libdb-dev libleveldb-dev libsodium-dev zlib1g-dev libtinfo-dev solc sysvbanner software-properties-common maven

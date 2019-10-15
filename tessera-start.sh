@@ -80,7 +80,7 @@ fi
       MEMORY="-Xms128M -Xmx128M"
     fi
 
-    CMD="java $jvmParams $DEBUG $MEMORY -jar ${tesseraJar} -configfile $DDIR/tessera-config-enclave-09-1.json"
+    CMD="java $jvmParams $DEBUG $MEMORY -jar ${tesseraJar} -configfile $DDIR/tessera-config-09-1.json"
     echo "$CMD >> qdata/logs/tessera.log 2>&1 &"
     ${CMD} >> "qdata/logs/tessera.log" 2>&1 &
     sleep 1

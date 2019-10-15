@@ -3,15 +3,15 @@
 echo "[*] Initialising Tessera configuration"
 
 currentDir=$(pwd)
-    DDIR="qdata/c1"
+    DDIR="$(pwd)/qdata/c1"
     mkdir -p ${DDIR}
     mkdir -p qdata/logs
     rm -f "${DDIR}/tm.ipc"
 
 java -jar $HOME/bin/tessera.jar -keygen -filename  "tm"
 #tessera -keygen -filename "${DDIR}/tm"
-mv "tm.pub" "${DDIR}/tm.pub"
-mv "tm.key" "${DDIR}/tm.key"
+cp "tm.pub" "${DDIR}/tm.pub"
+cp "tm.key" "${DDIR}/tm.key"
 
     #change tls to "strict" to enable it (don't forget to also change http -> https)
     cat <<EOF > ${DDIR}/tessera-config-09-1.json
@@ -70,7 +70,7 @@ mv "tm.key" "${DDIR}/tm.key"
     ],
     "keyData": [
       {
-        "config": "$(cat${DDIR}/tm.key)",
+        "config": $(cat ${DDIR}/tm.key),
         "publicKey": "$(cat ${DDIR}/tm.pub)"
       }
     ]

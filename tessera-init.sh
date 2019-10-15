@@ -11,7 +11,9 @@ currentDir=$(pwd)
 java -jar $HOME/bin/tessera.jar -keygen -filename  "tm"
 #tessera -keygen -filename "${DDIR}/tm"
 cp "tm.pub" "${DDIR}/tm.pub"
+rm "tm.pub"
 cp "tm.key" "${DDIR}/tm.key"
+rm "tm.key"
 
     #change tls to "strict" to enable it (don't forget to also change http -> https)
     cat <<EOF > ${DDIR}/tessera-config-09-1.json
